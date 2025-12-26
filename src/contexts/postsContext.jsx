@@ -15,7 +15,6 @@ export function PostsProvider({ children }) {
         if (!response.ok) {
           throw new Error("An Error happened while fetching posts");
         }
-        console.log(response);
         const fetchedPostsObj = await response.json();
 
         setPosts(fetchedPostsObj.posts);

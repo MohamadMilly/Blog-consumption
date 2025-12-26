@@ -21,21 +21,18 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
   const updatedAtDateString = timeAgo(updatedAtDate);
   const profile = author?.profile;
   const avatar = profile?.avatar || "/avatar_placeholder.png";
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const isPostAuthorComment = post.author.id === author.id;
   const handleDelete = async () => {
     try {
       setIsloading(true);
       setError(null);
-      const response = await fetch(
-        `http://localhost:8000/posts/${slug}/comments/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/posts/${slug}/comments/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const result = await response.json();
       if (!response.ok) {
         throw new Error(result.message || "Failed deleteing the comment.");

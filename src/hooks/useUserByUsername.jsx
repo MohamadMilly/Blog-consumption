@@ -22,7 +22,7 @@ export function useUserByUsername(username) {
     } finally {
       setIsLoading(false);
     }
-  }, [username]);
+  }, [username, API_URL]);
 
   useEffect(() => {
     getUserData();

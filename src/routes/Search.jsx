@@ -44,7 +44,7 @@ export function SearchPage() {
     return () => {
       ignore = true;
     };
-  }, [query]);
+  }, [query, API_URL]);
 
   return (
     <main
