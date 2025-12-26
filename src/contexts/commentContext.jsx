@@ -37,7 +37,7 @@ export function CommentsProvider({ children }) {
     };
     fetchComments();
     return () => (ignore = true);
-  }, [isCommentsPanelOpen, slug]);
+  }, [isCommentsPanelOpen, slug, API_URL]);
   return (
     <CommentsContext.Provider
       value={{

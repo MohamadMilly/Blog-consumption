@@ -43,7 +43,7 @@ export function UserProvider({ children }) {
     } finally {
       setIsLoading(false);
     }
-  }, [token]);
+  }, [token, API_URL]);
 
   useEffect(() => {
     getUserData();

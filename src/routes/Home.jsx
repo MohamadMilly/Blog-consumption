@@ -9,14 +9,20 @@ export function HomePage() {
   }
   if (isLoading) {
     return (
-      <div className="inset-0">
-        <Spinner className="m-auto" />
+      <div className="flex items-center justify-center h-full">
+        <Spinner />
       </div>
     );
   }
+
   if (posts.length <= 0) {
-    return <p className="text-white m-auto text-sm">No posts yet...</p>;
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-white text-sm">No posts yet...</p>
+      </div>
+    );
   }
+
   return (
     <main className=" px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300">
       <h1 className="tracking-tight text-2xl mb-4">Home</h1>
