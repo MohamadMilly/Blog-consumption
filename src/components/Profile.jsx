@@ -1,6 +1,6 @@
 import { useAuth } from "../contexts/authContext";
 import { BioSection } from "./BioSection";
-import { LocationSection } from "./locationSection";
+import { LocationSection } from "./LocationSection";
 import { Mail, MapPin } from "lucide-react";
 import { Post } from "./PostCard";
 import { CommentsPanel } from "./CommentsPanel";
