@@ -10,7 +10,11 @@ export function UserProfilePage() {
     return <p>Error: {error}</p>;
   }
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Spinner />
+      </div>
+    );
   }
   const profile = user?.profile;
   const bio = profile?.bio;

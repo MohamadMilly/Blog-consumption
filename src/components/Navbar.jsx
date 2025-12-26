@@ -40,7 +40,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="hidden sticky top-4 left-0 right-0 w-full mx-auto mt-2 sm:mt-6 md:mt-8 mb-8 sm:w-5/6 md:w-200 px-6 py-4 md:flex justify-between bg-white/5 rounded-full backdrop-blur-sm shadow-inner shadow-white/20">
+      <nav className="hidden left-0 right-0 w-full mx-auto mt-2 sm:mt-6 md:mt-8 mb-8 sm:w-5/6 md:w-200 px-6 py-4 md:flex justify-between bg-white/5 rounded-full backdrop-blur-sm shadow-inner shadow-white/20">
         {user && (
           <NavLink to="/me/settings" className={linkDesktopClass}>
             <span className="flex justify-center items-center gap-x-1">
