@@ -95,7 +95,7 @@ export function PostPage() {
             <AddCommentForm slug={slug} setIsCommenting={setIsCommenting} />
           )}
         </div>
-        <ul className="mb-8">
+        <ul className="mb-24">
           {isLoadingComments ? (
             <Spinner />
           ) : comments.length > 0 ? (

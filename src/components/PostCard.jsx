@@ -31,7 +31,7 @@ export function Post({
     setSlug(slug);
   };
   return (
-    <article className="flex flex-col sm:flex-row gap-4 bg-gray-900/15 rounded-lg p-4 mb-4 border-2 border-gray-800/10 border-dotted">
+    <article className="flex flex-col sm:flex-row gap-4 bg-gray-800/15 rounded-lg p-4 mb-4 border-2 border-gray-800/10 border-dotted">
       <div className="w-full h-48 sm:w-50 shrink-0 bg-gray-500/10 rounded-md flex items-center justify-center text-gray-400 overflow-hidden">
         {featuredImageURL ? (
           <img

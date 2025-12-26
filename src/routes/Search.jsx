@@ -27,7 +27,7 @@ export function SearchPage() {
         setError(null);
         const response = await fetch(`${API_URL}/posts?slug=${query}`);
         if (ignore) {
-          return;
+          return null;
         }
         const result = await response.json();
         if (!response.ok) {
@@ -43,6 +43,7 @@ export function SearchPage() {
     fetchPosts();
     return () => {
       ignore = true;
+      setPosts([]);
     };
   }, [query, API_URL]);
 
