@@ -1,6 +1,6 @@
 import { Profile } from "../../components/Profile";
 import Spinner from "../../components/Spinner";
-import { useUser } from "../../contexts/usercontext";
+import { useUser } from "../../contexts/userContext";
 import { Mail } from "lucide-react";
 
 export function CurrentUserProfilePage() {
