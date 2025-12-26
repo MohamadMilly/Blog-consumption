@@ -8,12 +8,14 @@ export function HomePage() {
     return <p className="text-red-600 text-center">Error: {error}</p>;
   }
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="inset-0">
+        <Spinner className="m-auto" />
+      </div>
+    );
   }
   if (posts.length <= 0) {
-    return (
-      <p className="text-center text-white text-lg mt-6">No posts yet...</p>
-    );
+    return <p className="text-white m-auto text-sm">No posts yet...</p>;
   }
   return (
     <main className=" px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300">
