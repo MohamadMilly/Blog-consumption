@@ -24,6 +24,7 @@ export function AddCommentForm({ slug, setIsCommenting }) {
         id: user.id,
         firstname: user.firstname,
         lastname: user.lastname,
+        username: user.username,
         avatar: user.profile.avatar,
       },
       content: comment,
