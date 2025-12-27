@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useComments } from "../contexts/commentContext";
 import { useUser } from "../contexts/userContext";
+import Spinner from "./Spinner";
 export function AddCommentForm({ slug, setIsCommenting }) {
   const [comment, setComment] = useState("");
   const { token } = useAuth();
@@ -96,11 +97,11 @@ export function AddCommentForm({ slug, setIsCommenting }) {
         ></textarea>
         <div className="flex gap-x-2 mt-2 items-center">
           <button
-            className="bg-pink-700/70 w-16 h-8 text-sm rounded hover:bg-pink-600/70 cursor-pointer transition-all duration-300"
+            className="bg-pink-700/70 disabled:bg-pink-200 w-16 h-8 text-sm rounded hover:bg-pink-600/70 cursor-pointer transition-all duration-300"
             type="submit"
             disabled={isLoading}
           >
-            Add
+            {isLoading ? <Spinner className="w-6 h-6 m-auto" /> : "Add"}
           </button>
           <button
             className="border-2 border-pink-700/70 w-16 h-8 text-sm rounded hover:bg-pink-600/70 cursor-pointer transition-all duration-300"
