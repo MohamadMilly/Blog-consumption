@@ -53,20 +53,20 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
   return (
     <li
       onClick={handleDateVisibilityToggle}
-      className="mb-2 cursor-pointer flex"
+      className="mb-2 cursor-pointer flex max-w-full"
     >
       {" "}
-      <Link to={`/users/${author.username}/profile`}>
+      <Link className="shrink-0" to={`/users/${author.username}/profile`}>
         <img
           className="w-16 h-16 rounded-full object-cover mr-2"
           src={avatar}
           alt="comment author avatar"
         />
       </Link>
-      <div className="grow">
-        <div className="px-4 py-2 bg-gray-500/10 rounded-t-lg rounded-br-lg">
+      <div className="grow w-3/4">
+        <div className="px-4 py-2 bg-gray-500/10 rounded-t-lg rounded-br-lg max-w-full">
           {error && <p className="text-red-600">Error: {error}</p>}
-          <div className="text-sm mb-1 flex justify-between items-center">
+          <div className="text-sm mb-1 flex justify-between items-center max-w-full">
             <strong className="flex items-center gap-x-2">
               <span>{author.firstname + " " + author.lastname}</span>
               {isPostAuthorComment && (
@@ -83,7 +83,9 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
             />
           </div>
           {!isEditing && (
-            <p className="whitespace-pre-wrap text-sm">{content}</p>
+            <p className="whitespace-pre-wrap text-sm wrap-break-word">
+              {content}
+            </p>
           )}
           {isEditing && (
             <EditCommentForm

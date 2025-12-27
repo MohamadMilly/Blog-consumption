@@ -12,38 +12,43 @@ export function SearchPage() {
 
   const query = searchParams.get("slug")?.trim();
   const resultsCount = posts.length;
-
   const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
-    let ignore = false;
+    const controller = new AbortController();
+    let active = true;
     const fetchPosts = async () => {
       if (!query) {
         setPosts([]);
-        return;
+        setisLoading(false);
+        return null;
       }
       try {
         setisLoading(true);
         setError(null);
-        const response = await fetch(`${API_URL}/posts?slug=${query}`);
-        if (ignore) {
-          return null;
-        }
+
+        const response = await fetch(`${API_URL}/posts?slug=${query}`, {
+          signal: controller.signal,
+        });
+
         const result = await response.json();
         if (!response.ok) {
           throw new Error(result.message || "Error searching posts");
         }
         setPosts(result.posts || []);
       } catch (error) {
-        setError(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
       } finally {
-        setisLoading(false);
+        if (active) {
+          setisLoading(false);
+        }
       }
     };
     fetchPosts();
     return () => {
-      ignore = true;
-      setPosts([]);
+      controller.abort();
+      active = false;
     };
   }, [query, API_URL]);
 

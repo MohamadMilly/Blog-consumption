@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useComments } from "../contexts/commentContext";
-
+import { useUser } from "../contexts/userContext";
 export function AddCommentForm({ slug, setIsCommenting }) {
   const [comment, setComment] = useState("");
   const { token } = useAuth();
-  const { comments, setComments } = useComments();
+  const { user } = useUser();
+  const { setComments } = useComments();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSlideUpRunning, setIsSlideUpRunning] = useState(false);
@@ -15,6 +16,21 @@ export function AddCommentForm({ slug, setIsCommenting }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const tempId = Date.now();
+    const OptimisticComment = {
+      id: tempId,
+      author: {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        avatar: user.profile.avatar,
+      },
+      content: comment,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    setComments((prev) => [...prev, OptimisticComment]);
+
     try {
       setError(null);
       setIsLoading(true);
@@ -34,10 +50,21 @@ export function AddCommentForm({ slug, setIsCommenting }) {
       }
       const addedcomment = result.comment;
       if (addedcomment) {
-        setComments([...comments, addedcomment]);
+        setComments((prev) =>
+          prev.map((comment) => {
+            if (comment.id === OptimisticComment.id) {
+              return addedcomment;
+            } else {
+              return comment;
+            }
+          })
+        );
       }
     } catch (error) {
       setError(error.message);
+      setComments((prev) =>
+        prev.filter((comment) => comment.id !== OptimisticComment.id)
+      );
     } finally {
       setIsLoading(false);
       setComment("");
@@ -73,7 +100,7 @@ export function AddCommentForm({ slug, setIsCommenting }) {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? "adding..." : "Add"}
+            Add
           </button>
           <button
             className="border-2 border-pink-700/70 w-16 h-8 text-sm rounded hover:bg-pink-600/70 cursor-pointer transition-all duration-300"
