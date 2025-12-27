@@ -25,12 +25,15 @@ export function AddCommentForm({ slug, setIsCommenting }) {
         firstname: user.firstname,
         lastname: user.lastname,
         username: user.username,
-        avatar: user.profile.avatar,
+        profile: {
+          avatar: user?.profile?.avatar || "/avatar_placeholder.jpg",
+        },
       },
       content: comment,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
+
     setComments((prev) => [...prev, OptimisticComment]);
 
     try {

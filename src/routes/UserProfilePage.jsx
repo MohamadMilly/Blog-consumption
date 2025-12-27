@@ -19,6 +19,6 @@ export function UserProfilePage() {
   const profile = user?.profile;
   const bio = profile?.bio;
   const location = profile?.location;
-  const avatar = profile?.avatar || "/avatar_placeholder.png";
+  const avatar = profile?.avatar || "/avatar_placeholder.jpg";
   return <Profile user={user} bio={bio} location={location} avatar={avatar} />;
 }

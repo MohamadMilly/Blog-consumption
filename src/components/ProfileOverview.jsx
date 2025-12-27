@@ -5,7 +5,7 @@ import Spinner from "./Spinner";
 export function ProfileOverview() {
   const { user, isLoading, error } = useUser();
   const userProfile = user?.profile;
-  const avatar = userProfile?.avatar || "/avatar_placeholder.png";
+  const avatar = userProfile?.avatar || "/avatar_placeholder.jpg";
   if (error) {
     return <p className="text-red-600">Error: {error}</p>;
   }

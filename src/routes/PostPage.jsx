@@ -28,7 +28,7 @@ export function PostPage() {
   const updatedAtDateISO = new Date(post?.updatedAt).toISOString();
   const updatedAtDateString = formatDate(new Date(post?.updatedAt));
   const author = post?.author;
-  const authorAvatar = author.profile?.avatar || "/avatar_placeholder.png";
+  const authorAvatar = author.profile?.avatar || "/avatar_placeholder.jpg";
   if (!post) return <p>Post is not found</p>;
   return (
     <main className="w-full px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300 mt-12  ">

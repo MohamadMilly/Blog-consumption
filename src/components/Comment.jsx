@@ -20,8 +20,7 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
   const updatedAtDateISO = updatedAtDate.toISOString();
   const updatedAtDateString = timeAgo(updatedAtDate);
   const profile = author?.profile;
-  console.log(profile);
-  const avatar = profile?.avatar || "/avatar_placeholder.png";
+  const avatar = profile?.avatar || "/avatar_placeholder.jpg";
   const API_URL = import.meta.env.VITE_API_URL;
   const isPostAuthorComment = post.author.id === author.id;
   const handleDelete = async () => {

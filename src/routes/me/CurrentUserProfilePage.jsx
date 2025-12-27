@@ -8,7 +8,7 @@ export function CurrentUserProfilePage() {
   const profile = user?.profile;
   const bio = profile?.bio;
   const location = profile?.location;
-  const avatar = profile?.avatar || "/avatar_placeholder.png";
+  const avatar = profile?.avatar || "/avatar_placeholder.jpg";
   if (error) {
     return <p>Error: {error}</p>;
   }

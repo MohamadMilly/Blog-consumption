@@ -26,7 +26,6 @@ export function useChangePassword() {
       });
       const result = await response.json();
       if (!response.ok) {
-        console.log(response);
         throw new Error(result.message || "Changing passoword failed.");
       }
     } catch (error) {
