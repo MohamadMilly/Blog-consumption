@@ -46,13 +46,13 @@ export function PostPage() {
         <h1 className="bg-pink-600 text-5xl sm:text-6xl font-bold text-black mix-blend-screen px-10 py-5 mb-6">
           {post.title}
         </h1>
-        <p className="text-gray-300 text-lg  mr-auto">
+        <p className="text-gray-300 text-lg  mr-auto mb-2">
           <Link
             to={`/users/${author.username}/profile`}
             className="group flex items-center"
           >
             <img
-              className="w-24 auto object-center -mr-2"
+              className="w-18 h-18 auto object-center mr-2 rounded-full"
               src={authorAvatar}
               alt="author's avatar"
             />

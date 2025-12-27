@@ -4,6 +4,7 @@ import { LocationSection } from "./LocationSection";
 import { Mail, MapPin } from "lucide-react";
 import { Post } from "./PostCard";
 import { CommentsPanel } from "./CommentsPanel";
+import { AvatarForm } from "./AddAvatarForm";
 export function Profile({ user, bio, location, avatar }) {
   const { user: currentUser } = useAuth();
   const isCurrentUserProfile = currentUser?.id === user.id || false;
@@ -11,13 +12,16 @@ export function Profile({ user, bio, location, avatar }) {
   return (
     <main className="w-full px-4 sm:px-12 py-4 my-6 sm:my-12 max-w-190 mx-auto text-gray-200 transition-all duration-300">
       <section className="flex justify-center items-center border-b-2 px-2 pb-4 border-pink-600/50">
-        <div className="flex flex-col items-center w-52 aspect-square bg-gray-500/10 rounded-full shadow-inner shadow-white/20 hover:drop-shadow-pink-600/30 hover:drop-shadow-2xl transition-all duration-500 will-change-auto backdrop-blur-2xl">
-          <div>
+        <div className="flex flex-col items-center pt-4 w-60 aspect-square bg-gray-500/10 rounded-full shadow-inner shadow-white/20 hover:drop-shadow-pink-600/30 hover:drop-shadow-2xl transition-all duration-500 will-change-auto backdrop-blur-2xl">
+          <div className="relative">
             <img
-              className="w-32 h-32 object-cover"
+              className="w-28 h-28 object-cover rounded-full"
               src={avatar}
               alt="user's avatar"
             />
+            {isCurrentUserProfile && (
+              <AvatarForm className={"absolute bottom-2 right-2"} />
+            )}
           </div>
           <h1 className="text-lg font-medium">
             {user.firstname + " " + user.lastname}

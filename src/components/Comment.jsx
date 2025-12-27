@@ -20,6 +20,7 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
   const updatedAtDateISO = updatedAtDate.toISOString();
   const updatedAtDateString = timeAgo(updatedAtDate);
   const profile = author?.profile;
+  console.log(profile);
   const avatar = profile?.avatar || "/avatar_placeholder.png";
   const API_URL = import.meta.env.VITE_API_URL;
   const isPostAuthorComment = post.author.id === author.id;
@@ -58,7 +59,7 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
       {" "}
       <Link className="shrink-0" to={`/users/${author.username}/profile`}>
         <img
-          className="w-16 h-16 rounded-full object-cover mr-2"
+          className="w-14 h-14 rounded-full object-cover mr-2"
           src={avatar}
           alt="comment author avatar"
         />
