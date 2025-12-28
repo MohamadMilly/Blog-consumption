@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/authContext";
 
 export function EditCommentForm({ initialComment, setIsEditing, id }) {
   const [comment, setComment] = useState(initialComment);
-  const { slug, setComments, comments } = useComments();
+  const { slug, setComments } = useComments();
   const { token } = useAuth();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,8 +33,8 @@ export function EditCommentForm({ initialComment, setIsEditing, id }) {
         throw new Error(result.message || "Failed updating the comment.");
       }
       const updatedComment = result.comment;
-      setComments(
-        comments.map((comment) => {
+      setComments((prev) =>
+        prev.map((comment) => {
           if (comment.id === updatedComment.id) {
             return updatedComment;
           } else {
@@ -63,8 +63,9 @@ export function EditCommentForm({ initialComment, setIsEditing, id }) {
           className="text-sm px-4 py-2 outline-2 outline-gray-200/20 rounded bg-pink-500/5 min-h-fit focus:outline-gray-200/30 transition-all duration-300 hover:bg-pink-600/6"
           name="comment"
           id="comment"
-          defaultValue={initialComment || ""}
+          value={initialComment || ""}
           onChange={handleCommentChange}
+          aria-label="edit comment textarea"
         ></textarea>
       </div>
       <div className="flex gap-x-2 mt-2 items-center">

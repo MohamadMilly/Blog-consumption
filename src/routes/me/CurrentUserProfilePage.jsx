@@ -13,7 +13,11 @@ export function CurrentUserProfilePage() {
     return <p>Error: {error}</p>;
   }
   if (isLoading || !user) {
-    return <Spinner />;
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Spinner />
+      </div>
+    );
   }
   return <Profile user={user} bio={bio} location={location} avatar={avatar} />;
 }

@@ -17,7 +17,6 @@ export function AvatarForm({ className }) {
   const { refreshUser } = useUser();
   const [isLoading, setisLoading] = useState(false);
   const fileInputRef = useRef(null);
-  console.log("Auth token:", token);
 
   const handleClick = () => {
     fileInputRef.current.click();
