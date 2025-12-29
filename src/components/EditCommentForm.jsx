@@ -63,7 +63,7 @@ export function EditCommentForm({ initialComment, setIsEditing, id }) {
           className="text-sm px-4 py-2 outline-2 outline-gray-200/20 rounded bg-pink-500/5 min-h-fit focus:outline-gray-200/30 transition-all duration-300 hover:bg-pink-600/6"
           name="comment"
           id="comment"
-          value={initialComment || ""}
+          value={comment || ""}
           onChange={handleCommentChange}
           aria-label="edit comment textarea"
         ></textarea>
