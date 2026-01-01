@@ -14,7 +14,7 @@ export function CurrentUserProfilePage() {
   }
   if (isLoading || !user) {
     return (
-      <div className="flex items-center justify-center screen">
+      <div className="flex items-center justify-center h-screen">
         <Spinner />
       </div>
     );
