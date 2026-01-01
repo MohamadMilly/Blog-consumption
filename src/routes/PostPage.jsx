@@ -76,9 +76,11 @@ export function PostPage() {
           </time>
         </div>
       </header>
-      <article className="text-lg text-gray-200 mb-8 whitespace-pre-wrap">
-        {post.content}
-      </article>
+      <article
+        dangerouslySetInnerHTML={{ __html: post.content }}
+        className="text-lg text-gray-200 mb-8 whitespace-pre-wrap prose prose-invert"
+      />
+
       <aside>
         <h2 className="text-2xl tracking-tight font-medium border-b-2 border-pink-600 mb-4">
           Comments
