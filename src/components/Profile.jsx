@@ -10,7 +10,7 @@ export function Profile({ user, bio, location, avatar }) {
   const isCurrentUserProfile = currentUser?.id === user.id || false;
   const userRecentPosts = user?.posts;
   return (
-    <main className="w-full px-4 sm:px-12 py-4 my-6 sm:my-12 max-w-190 mx-auto text-gray-200 transition-all duration-300">
+    <main className="w-full px-4 sm:px-12 py-4 my-6 sm:my-12 max-w-190 mx-auto text-gray-200 transition-all duration-300 pb-10">
       <section className="flex justify-center items-center border-b-2 px-2 pb-4 border-pink-600/50">
         <div className="flex flex-col items-center pt-4 w-60 aspect-square bg-gray-500/10 rounded-full shadow-inner shadow-white/20 hover:drop-shadow-pink-600/30 hover:drop-shadow-2xl transition-all duration-500 will-change-auto backdrop-blur-2xl">
           <div className="relative">
