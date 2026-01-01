@@ -20,7 +20,12 @@ export function PostPage() {
   }, [slug, setSlug]);
 
   if (error) return <p>Error: {error}</p>;
-  if (isLoadingPosts) return <Spinner />;
+  if (isLoadingPosts)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner />
+      </div>
+    );
 
   const post = posts?.find((post) => post.slug === slug);
   const createdAtDateISO = new Date(post?.createdAt).toISOString();

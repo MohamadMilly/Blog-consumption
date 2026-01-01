@@ -8,6 +8,7 @@ import {
   Search,
   PlusCircle,
 } from "lucide-react";
+import { DashBoardDirectButton } from "./DashBoardDirectButton";
 
 function Navbar() {
   const { user } = useAuth();
@@ -67,14 +68,7 @@ function Navbar() {
             Search
           </span>
         </NavLink>
-        {isAuthor && (
-          <NavLink to="/me/posts/new" className={linkDesktopClass}>
-            <span className="flex justify-center items-center gap-x-1">
-              <PlusCircle size={20} />
-              New post
-            </span>
-          </NavLink>
-        )}
+        {isAuthor && <DashBoardDirectButton />}
         {user && (
           <NavLink to="/me/profile" className={linkDesktopClass}>
             <span className="flex justify-center items-center gap-x-1">
@@ -121,19 +115,7 @@ function Navbar() {
             <span className="sr-only">Search</span>
           </span>
         </NavLink>
-        {isAuthor && currentRoute === "/" && (
-          <div className="absolute top-0 right-6 w-12 h-12 -translate-y-20 bg-pink-400/10 rounded-full">
-            <NavLink
-              to="/me/posts/new"
-              className={`${baseLinkMobileClass} text-pink-600`}
-            >
-              <span className="flex justify-center items-center gap-x-1">
-                <PlusCircle size={30} />
-                <span className="sr-only">New post</span>
-              </span>
-            </NavLink>
-          </div>
-        )}
+        {isAuthor && currentRoute === "/" && <DashBoardDirectButton />}
         {user && (
           <NavLink to="/me/profile" className={linkMobileClass}>
             <span className="flex justify-center items-center gap-x-1">
