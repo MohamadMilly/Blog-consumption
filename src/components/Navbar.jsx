@@ -94,7 +94,7 @@ function Navbar() {
           </>
         )}
       </nav>
-      <nav className="fixed bottom-4 left-1/2 z-50 w-full h-16 max-w-lg -translate-x-1/2 rounded-full bg-slate-800 flex md:hidden">
+      <nav className="fixed bottom-2 left-1/2 z-50 w-full h-16 max-w-lg -translate-x-1/2 rounded-full bg-slate-800 flex md:hidden">
         {user && (
           <NavLink to="/me/settings" className={linkMobileClass}>
             <span className="flex justify-center items-center gap-x-1">

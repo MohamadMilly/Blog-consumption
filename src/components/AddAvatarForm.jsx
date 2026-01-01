@@ -15,7 +15,7 @@ export function AvatarForm({ className }) {
   const [avatar, setAvatar] = useState(null);
   const { token } = useAuth();
   const { refreshUser } = useUser();
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleClick = () => {
@@ -26,7 +26,7 @@ export function AvatarForm({ className }) {
     e.preventDefault();
     if (!avatar) return null;
     try {
-      setisLoading(true);
+      setIsLoading(true);
       const { data, error } = await supabase.storage
         .from("blog images")
         .upload(`avatars/${Date.now()}_${avatar.name}`, avatar);
@@ -57,7 +57,7 @@ export function AvatarForm({ className }) {
       alert(error.message);
       console.error(error.message);
     } finally {
-      setisLoading(false);
+      setIsLoading(false);
     }
   };
   return (

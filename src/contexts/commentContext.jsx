@@ -18,6 +18,7 @@ export function CommentsProvider({ children }) {
         if (!slug) return;
         setIsLoading(true);
         setError(null);
+        setComments([]);
         const response = await fetch(`${API_URL}/posts/${slug}/comments`);
         if (ignore) return;
         const result = await response.json();
@@ -37,7 +38,7 @@ export function CommentsProvider({ children }) {
     };
     fetchComments();
     return () => (ignore = true);
-  }, [isCommentsPanelOpen, slug, API_URL]);
+  }, [slug, API_URL]);
   return (
     <CommentsContext.Provider
       value={{
