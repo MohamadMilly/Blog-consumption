@@ -3,6 +3,7 @@ import { useSubmit, Form, useSearchParams } from "react-router";
 import { Post } from "../components/PostCard";
 import { CommentsPanel } from "../components/CommentsPanel";
 import Spinner from "../components/Spinner";
+import { LoadingPostsPage } from "../components/LoadingPostsPage";
 export function SearchPage() {
   const [searchParams] = useSearchParams();
   const [isLoading, setisLoading] = useState(false);
@@ -78,7 +79,7 @@ export function SearchPage() {
         {error ? (
           <p className="text-red-600 text-sm">Error: {error}</p>
         ) : isLoading ? (
-          <Spinner />
+          <LoadingPostsPage />
         ) : query && posts.length === 0 ? (
           <p className="text-sm text-center">No results found</p>
         ) : (

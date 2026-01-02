@@ -4,6 +4,7 @@ import { Post } from "../components/PostCard";
 import { CommentsPanel } from "../components/CommentsPanel";
 import { ToggleCategoryButton } from "../components/ToggleCategoryButton";
 import Spinner from "../components/Spinner";
+import { LoadingPostsPage } from "../components/LoadingPostsPage";
 
 export function Categories() {
   const [categories, setCategories] = useState([]);
@@ -102,7 +103,7 @@ export function CategoriesPage() {
             Error: {error}.
           </p>
         ) : isLoading ? (
-          <p>Loading ....</p>
+          <LoadingPostsPage />
         ) : posts.length === 0 ? (
           <p>No Posts are found.</p>
         ) : (
