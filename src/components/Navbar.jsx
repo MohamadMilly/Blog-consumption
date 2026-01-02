@@ -1,13 +1,6 @@
 import { useAuth } from "../contexts/authContext";
 import { NavLink, useLocation } from "react-router";
-import {
-  Settings,
-  CircleUser,
-  Shapes,
-  House,
-  Search,
-  PlusCircle,
-} from "lucide-react";
+import { Settings, CircleUser, Shapes, House, Search } from "lucide-react";
 import { DashBoardDirectButton } from "./DashBoardDirectButton";
 
 function Navbar() {
@@ -41,7 +34,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="hidden left-0 right-0 w-full mx-auto mt-2 sm:mt-6 md:mt-8 mb-8 sm:w-5/6 md:w-200 px-6 py-4 md:flex justify-between bg-white/5 rounded-full backdrop-blur-sm shadow-inner shadow-white/20">
+      <nav className="hidden relative w-full mx-auto mt-2 sm:mt-6 md:mt-8 mb-8 sm:w-5/6 md:w-200 px-6 py-4 md:flex justify-between bg-white/5 rounded-full backdrop-blur-sm shadow-inner shadow-white/20">
         {user && (
           <NavLink to="/me/settings" className={linkDesktopClass}>
             <span className="flex justify-center items-center gap-x-1">
@@ -50,6 +43,7 @@ function Navbar() {
             </span>
           </NavLink>
         )}
+
         <NavLink to="/categories" className={linkDesktopClass}>
           <span className="flex justify-center items-center gap-x-1">
             <Shapes size={20} />

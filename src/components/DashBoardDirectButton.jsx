@@ -28,16 +28,7 @@ export function DashBoardDirectButton() {
   };
   return (
     <>
-      <button
-        className="hidden md:flex justify-center items-center text-xs font-medium w-24 py-1.5 rounded-full transition-all duration-300 border-b-3 text-gray-200/80 bg-pink-700/50 hover:bg-pink-700/70 shadow-inner shadow-pink-600/20 border-pink-800/5"
-        onClick={handleRedirect}
-      >
-        <span className="flex justify-center items-center gap-x-1">
-          <PlusCircle size={20} />
-          New post
-        </span>
-      </button>
-      <div className="absolute top-0 right-6 w-12 h-12 -translate-y-20 bg-pink-400/10 rounded-full md:hidden">
+      <div className="absolute top-0 right-6 w-12 h-12 -translate-y-20 bg-pink-400/10 rounded-full md:right-0 md:top-1.5 md:bottom-1.5 md:translate-x-16 md:translate-y-0">
         <button
           onClick={handleRedirect}
           className="flex flex-col m-auto justify-center items-center text-xs font-medium h-full transition-all duration-300 grow first:rounded-l-full last:rounded-r-full text-pink-600"
