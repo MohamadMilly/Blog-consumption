@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { AddCommentForm } from "./AddCommentForm";
 import { MessageCircle, X, PlusCircle } from "lucide-react";
 import Spinner from "./Spinner";
+import { LoadingComments } from "./LoadingComments";
 
 export function CommentsPanel() {
   const {
@@ -70,7 +71,7 @@ export function CommentsPanel() {
           {error ? (
             <p className="text-red-400">Error: {error}</p>
           ) : isLoading ? (
-            <Spinner />
+            <LoadingComments />
           ) : comments.length > 0 ? (
             comments.map((comment) => (
               <Comment

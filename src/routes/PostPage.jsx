@@ -8,6 +8,7 @@ import { AddCommentForm } from "../components/AddCommentForm";
 import { PlusCircle, ArrowRight } from "lucide-react";
 import { useMathJax } from "../hooks/useMathJax";
 import Spinner from "../components/Spinner";
+import { LoadingComments } from "../components/LoadingComments";
 
 export function PostPage() {
   useMathJax();
@@ -104,7 +105,7 @@ export function PostPage() {
         </div>
         <ul className="mb-24">
           {isLoadingComments ? (
-            <Spinner />
+            <LoadingComments />
           ) : comments.length > 0 ? (
             comments.map((comment) => {
               return (
