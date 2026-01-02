@@ -23,7 +23,7 @@ export function Profile({ user, bio, location, avatar }) {
               <AvatarForm className={"absolute bottom-2 right-2"} />
             )}
           </div>
-          <h1 className="text-lg font-medium">
+          <h1 className="text-lg font-medium mt-4">
             {user.firstname + " " + user.lastname}
           </h1>
           <p className="text-sm text-pink-500">{user.role}</p>
