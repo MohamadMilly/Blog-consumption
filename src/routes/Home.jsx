@@ -18,8 +18,8 @@ export function HomePage() {
   }
 
   return (
-    <main className=" px-4 sm:px-12 py-4 mt-6 max-w-190 mx-auto text-gray-200 transition-all duration-300 pb-10">
-      <h1 className="tracking-tight text-2xl mb-4">Home</h1>
+    <main className=" px-4 sm:px-12 py-4 mt-6 max-w-190 mx-auto text-gray-200 transition-all duration-300">
+      <h1 className="tracking-tight text-2xl mb-10">Home</h1>
       {isLoading ? (
         <LoadingPostsPage />
       ) : (

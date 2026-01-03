@@ -90,8 +90,8 @@ export function CategoriesPage() {
     getPostsByCategories();
   }, [selected, API_URL]);
   return (
-    <main className="px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300 mb-10">
-      <h1 className="text-2xl tracking-tight mb-4">Categories</h1>
+    <main className="px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300">
+      <h1 className="text-2xl tracking-tight mb-10">Categories</h1>
       <Categories />
       <section>
         {!selected ? (

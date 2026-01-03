@@ -55,9 +55,9 @@ export function SearchPage() {
 
   return (
     <main
-      className={`w-full sm:px-12 px-4 py-4 my-6 sm:my-12 max-w-190 mx-auto border-l-2 ${resultsCount > 0 ? "border-pink-500/70" : "border-white"} text-gray-200 transition-all duration-300 pb-10`}
+      className={`w-full sm:px-12 px-4 py-4 my-6 sm:my-12 max-w-190 mx-auto border-l-2 ${resultsCount > 0 ? "border-pink-500/70" : "border-white"} text-gray-200 transition-all duration-300`}
     >
-      <h1 className="text-2xl tracking-tight mb-4">Search</h1>
+      <h1 className="text-2xl tracking-tight mb-10">Search</h1>
       <Form method="GET">
         <div>
           <input

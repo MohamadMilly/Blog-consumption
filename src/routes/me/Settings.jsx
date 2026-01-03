@@ -6,7 +6,7 @@ import { RotateCcwKey } from "lucide-react";
 export function SettingsPage() {
   return (
     <main className="w-full px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300 ">
-      <h1 className="text-2xl tracking-tight mb-4">Settings</h1>
+      <h1 className="text-2xl tracking-tight mb-10">Settings</h1>
       <ProfileOverview />
       <section className="my-6">
         <h2 className="text-lg mb-4 tracking-tight border-b-2 border-pink-600/50">
