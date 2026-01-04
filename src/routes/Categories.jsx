@@ -77,17 +77,29 @@ export function CategoriesPage() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    let ignore = false;
     if (!selected) return;
-    const getPostsByCategories = () => {
-      setIsLoading(true);
-      setError(null);
-      fetch(`${API_URL}/posts?categories=${selected}`)
-        .then((response) => response.json())
-        .then((data) => setPosts(data.posts || []))
-        .catch((error) => setError(error.message))
-        .finally(() => setIsLoading(false));
+    const getPostsByCategories = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await fetch(`${API_URL}/posts?categories=${selected}`);
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.message || "Failed to filter posts.");
+        }
+        if (ignore) return null;
+        const posts = result.posts;
+        setPosts(posts || []);
+      } catch (err) {
+        setError(err.message);
+        console.error(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getPostsByCategories();
+    return () => (ignore = true);
   }, [selected, API_URL]);
   return (
     <main className="px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300">
