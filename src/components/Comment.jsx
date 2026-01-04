@@ -9,10 +9,10 @@ import { Link } from "react-router";
 export function Comment({ author, content, createdAt, updatedAt, id }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsloading] = useState(false);
-  const [isDateVisibie, setIsDateVisible] = useState(false);
+  const [isDateVisible, setIsDateVisible] = useState(false);
   const [error, setError] = useState(null);
   const { token } = useAuth();
-  const { slug, setComments, comments, post } = useComments();
+  const { slug, setComments, post, comments } = useComments();
   const createdAtDate = new Date(createdAt);
   const updatedAtDate = new Date(updatedAt);
   const createdAtDateISO = createdAtDate.toISOString();
@@ -24,6 +24,12 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
   const API_URL = import.meta.env.VITE_API_URL;
   const isPostAuthorComment = post.author.id === author.id;
   const handleDelete = async () => {
+    let commentsClone;
+    setComments((prev) => {
+      commentsClone = [...prev];
+      return prev.filter((c) => c.id !== id);
+    });
+
     try {
       setIsloading(true);
       setError(null);
@@ -37,18 +43,17 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
       if (!response.ok) {
         throw new Error(result.message || "Failed deleteing the comment.");
       }
-      setComments(
-        comments.filter((comment) => comment.id !== result.comment.id)
-      );
     } catch (error) {
+      setComments(commentsClone);
       setError(error.message);
+      console.error(error.message);
     } finally {
       setIsloading(false);
     }
   };
 
   const handleDateVisibilityToggle = () => {
-    setIsDateVisible(!isDateVisibie);
+    setIsDateVisible((prev) => !prev);
   };
   return (
     <li
@@ -95,7 +100,7 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
             />
           )}
         </div>
-        {isDateVisibie && (
+        {isDateVisible && (
           <div className="flex gap-x-4 text-xs text-pink-500/80">
             <time dateTime={createdAtDateISO}>
               Created: {createdAtDateString}

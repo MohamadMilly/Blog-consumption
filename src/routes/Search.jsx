@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSubmit, Form, useSearchParams } from "react-router";
 import { Post } from "../components/PostCard";
 import { CommentsPanel } from "../components/CommentsPanel";
-import Spinner from "../components/Spinner";
 import { LoadingPostsPage } from "../components/LoadingPostsPage";
 export function SearchPage() {
   const [searchParams] = useSearchParams();
