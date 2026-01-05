@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useComments } from "../contexts/commentContext";
 import { useUser } from "../contexts/userContext";
 import Spinner from "./Spinner";
+import { CommentsPanelContext } from "./CommentsPanel";
 export function AddCommentForm({ slug, setIsCommenting }) {
   const [comment, setComment] = useState("");
   const { token } = useAuth();
@@ -11,6 +12,7 @@ export function AddCommentForm({ slug, setIsCommenting }) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSlideUpRunning, setIsSlideUpRunning] = useState(false);
+  const { controller } = useContext(CommentsPanelContext);
   const API_URL = import.meta.env.VITE_API_URL;
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -32,6 +34,7 @@ export function AddCommentForm({ slug, setIsCommenting }) {
       content: comment,
       createdAt: Date.now(),
       updatedAt: Date.now(),
+      status: "sending",
     };
 
     setComments((prev) => [...prev, OptimisticComment]);
@@ -48,6 +51,7 @@ export function AddCommentForm({ slug, setIsCommenting }) {
         body: JSON.stringify({
           content: comment,
         }),
+        signal: controller.signal,
       });
       const result = await response.json();
       if (!response.ok) {
@@ -66,6 +70,7 @@ export function AddCommentForm({ slug, setIsCommenting }) {
         );
       }
     } catch (error) {
+      if (error.name === "AbortError") return;
       setError(error.message);
       setComments((prev) =>
         prev.filter((comment) => comment.id !== OptimisticComment.id)

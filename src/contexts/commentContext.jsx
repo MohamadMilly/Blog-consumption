@@ -28,7 +28,11 @@ export function CommentsProvider({ children }) {
             result.message || "Failed getting the comments for this post."
           );
         }
-        setComments(result.comments || []);
+        const commentsWithStatus = result.comments.map((comment) => ({
+          ...comment,
+          status: "ready",
+        }));
+        setComments(commentsWithStatus || []);
         setPost(result.post);
       } catch (error) {
         setError(error.message);

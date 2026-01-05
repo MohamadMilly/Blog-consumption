@@ -1,18 +1,19 @@
 import { CommentDropDown } from "./CommentDropdown";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { EditCommentForm } from "./EditCommentForm";
 import { useAuth } from "../contexts/authContext";
 import { useComments } from "../contexts/commentContext";
 import { timeAgo } from "../utlis/dateUtlis";
 import { Link } from "react-router";
-
-export function Comment({ author, content, createdAt, updatedAt, id }) {
+import { CommentsPanelContext } from "./CommentsPanel";
+export function Comment({ author, content, createdAt, updatedAt, id, status }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsloading] = useState(false);
   const [isDateVisible, setIsDateVisible] = useState(false);
   const [error, setError] = useState(null);
   const { token } = useAuth();
   const { slug, setComments, post, comments } = useComments();
+  const { controller } = useContext(CommentsPanelContext);
   const createdAtDate = new Date(createdAt);
   const updatedAtDate = new Date(updatedAt);
   const createdAtDateISO = createdAtDate.toISOString();
@@ -29,10 +30,14 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
       commentsClone = [...prev];
       return prev.filter((c) => c.id !== id);
     });
-
+    if (status === "sending") {
+      controller.abort();
+      return;
+    }
     try {
       setIsloading(true);
       setError(null);
+
       const response = await fetch(`${API_URL}/posts/${slug}/comments/${id}`, {
         method: "DELETE",
         headers: {
@@ -44,6 +49,7 @@ export function Comment({ author, content, createdAt, updatedAt, id }) {
         throw new Error(result.message || "Failed deleteing the comment.");
       }
     } catch (error) {
+      if (error.name === "AbortError") return;
       setComments(commentsClone);
       setError(error.message);
       console.error(error.message);
