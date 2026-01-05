@@ -85,7 +85,7 @@ export function PostPage() {
       </header>
       <article
         dangerouslySetInnerHTML={{ __html: post.content }}
-        className="text-lg text-gray-200 mb-8 whitespace-pre-wrap prose prose-invert"
+        className="text-lg text-gray-200 mb-8 whitespace-pre-wrap prose prose-invert wrap-break-word whitespace-normal overflow-x-auto"
       />
 
       <aside>

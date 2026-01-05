@@ -82,7 +82,7 @@ export function Post({
                   ? content.slice(0, content.lastIndexOf(" ", 100)) + "..."
                   : content,
             }}
-            className="text-sm text-gray-200 bg-gray-700/10 p-2 my-2 rounded"
+            className="text-sm text-gray-200 bg-gray-700/10 p-2 my-2 rounded max-h-20 overflow-hidden"
           />
           <ul className="flex flex-wrap gap-2 mt-3 text-sm">
             {categories.map((category) => (
