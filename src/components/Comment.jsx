@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/authContext";
 import { useComments } from "../contexts/commentContext";
 import { timeAgo } from "../utlis/dateUtlis";
 import { Link } from "react-router";
-import { CommentsPanelContext } from "./CommentsPanel";
+import { ControlContext } from "./CommentsContainer";
 export function Comment({ author, content, createdAt, updatedAt, id, status }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsloading] = useState(false);
@@ -13,7 +13,7 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
   const [error, setError] = useState(null);
   const { token } = useAuth();
   const { slug, setComments, post, comments } = useComments();
-  const { controller, setIsAborted } = useContext(CommentsPanelContext);
+  const { controller, setIsAborted } = useContext(ControlContext);
   const createdAtDate = new Date(createdAt);
   const updatedAtDate = new Date(updatedAt);
   const createdAtDateISO = createdAtDate.toISOString();

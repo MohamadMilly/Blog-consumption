@@ -9,6 +9,7 @@ import { PlusCircle, ArrowRight } from "lucide-react";
 import { useMathJax } from "../hooks/useMathJax";
 import Spinner from "../components/Spinner";
 import { LoadingComments } from "../components/LoadingComments";
+import { CommmentsContainer } from "../components/CommentsContainer";
 
 export function PostPage() {
   useMathJax();
@@ -87,43 +88,10 @@ export function PostPage() {
         className="text-lg text-gray-200 mb-8 whitespace-pre-wrap prose prose-invert"
       />
 
-      <aside>
-        <h2 className="text-2xl tracking-tight font-medium border-b-2 border-pink-600 mb-4">
-          Comments
-        </h2>
-        <div className="mb-4">
-          <button
-            onClick={() => setIsCommenting(true)}
-            className="bg-pink-700/70 px-2 py-1.5 mb-2 text-sm rounded hover:bg-pink-600/70 cursor-pointer transition-all duration-300 flex items-center"
-          >
-            <PlusCircle className="mr-2" size={18} />
-            Add Comment
-          </button>
-          {isCommenting && (
-            <AddCommentForm slug={slug} setIsCommenting={setIsCommenting} />
-          )}
-        </div>
-        <ul className="mb-24">
-          {isLoadingComments ? (
-            <LoadingComments />
-          ) : comments.length > 0 ? (
-            comments.map((comment) => {
-              return (
-                <Comment
-                  author={comment.author}
-                  createdAt={comment.createdAt}
-                  updatedAt={comment.updatedAt}
-                  content={comment.content}
-                  id={comment.id}
-                  key={comment.id}
-                />
-              );
-            })
-          ) : (
-            <p>No comments yet</p>
-          )}
-        </ul>
-      </aside>
+      <h2 className="text-2xl tracking-tight font-medium border-b-2 border-pink-600 mb-4">
+        Comments
+      </h2>
+      <CommmentsContainer />
     </main>
   );
 }
