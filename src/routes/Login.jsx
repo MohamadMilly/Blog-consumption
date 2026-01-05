@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router";
 import { PasswordField } from "../components/PasswordField";
+import Spinner from "../components/Spinner";
 
 export function Login() {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -15,6 +17,8 @@ export function Login() {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     try {
+      setIsLoading(true);
+      setError(null);
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "post",
         headers: {
@@ -30,8 +34,10 @@ export function Login() {
       const user = result.user;
       login(token, user);
       navigate("/");
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -73,10 +79,11 @@ export function Login() {
         />
 
         <button
-          className=" py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-auto"
+          className="flex justify-center items-center gap-x-2 py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-auto"
           type="submit"
         >
-          Login
+          <span>Log in</span>
+          {isLoading && <Spinner size="sm" />}
         </button>
       </form>
 

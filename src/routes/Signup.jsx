@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router";
 import { PasswordField } from "../components/PasswordField";
+import Spinner from "../components/Spinner";
 export function SignUp() {
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -14,6 +16,8 @@ export function SignUp() {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     try {
+      setIsLoading(true);
+      setError(null);
       const response = await fetch(`${API_URL}/auth/signup`, {
         method: "post",
         headers: {
@@ -29,6 +33,9 @@ export function SignUp() {
       navigate("/");
     } catch (error) {
       setError(error.message);
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -112,10 +119,11 @@ export function SignUp() {
         />
 
         <button
-          className="py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-2"
+          className="flex items-center justify-center gap-x-2 py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-2"
           type="submit"
         >
-          Submit
+          <span>Submit</span>
+          {isLoading && <Spinner size="sm" />}
         </button>
       </form>
 

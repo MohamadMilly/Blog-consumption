@@ -88,10 +88,12 @@ export function PostPage() {
         className="text-lg text-gray-200 mb-8 whitespace-pre-wrap prose prose-invert"
       />
 
-      <h2 className="text-2xl tracking-tight font-medium border-b-2 border-pink-600 mb-4">
-        Comments
-      </h2>
-      <CommmentsContainer />
+      <aside>
+        <h2 className="text-2xl tracking-tight font-medium border-b-2 border-pink-600 mb-4">
+          Comments
+        </h2>
+        <CommmentsContainer />
+      </aside>
     </main>
   );
 }
