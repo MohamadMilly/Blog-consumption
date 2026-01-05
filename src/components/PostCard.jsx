@@ -33,11 +33,12 @@ export function Post({
     setSlug(slug);
   };
   return (
-    <article className="flex flex-col ">
+    <article className="flex flex-col">
       <div className="text-xs text-gray-300 mb-2 flex justify-between items-center flex-wrap gap-y-2 pb-2 border-b border-gray-400/20">
         <Link
           to={`/users/${author.username}/profile`}
           className="group flex items-center"
+          viewTransition
         >
           <img
             className="w-8 h-8 auto object-center mr-2 rounded-full"
@@ -56,7 +57,7 @@ export function Post({
         <div className="w-full h-40 sm:h-full sm:w-50 shrink-0 bg-gray-500/10 flex items-center justify-center text-gray-400 overflow-hidden">
           {featuredImageURL ? (
             <img
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full vt-image"
               src={featuredImageURL}
               alt="post feature image"
             />
@@ -65,8 +66,10 @@ export function Post({
           )}
         </div>
         <div className="flex flex-col grow px-4 py-2">
-          <h2 className="text-lg font-semibold mb-2 flex items-center gap-x-2 group border-b-2 border-pink-600/70 w-fit transition-all duration-300">
-            <Link to={`/posts/${slug}`}>{title}</Link>
+          <h2 className="text-lg font-semibold mb-2 flex items-center gap-x-2 group border-b-2 border-pink-600/70 w-fit transition-all duration-300 vt-title">
+            <Link viewTransition to={`/posts/${slug}`}>
+              {title}
+            </Link>
             <MoveRight
               size={18}
               className="group-hover:translate-x-2 transition-all duration-300"

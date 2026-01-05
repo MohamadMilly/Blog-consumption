@@ -38,19 +38,19 @@ export function PostPage() {
   const authorAvatar = author.profile?.avatar || "/avatar_placeholder.jpg";
   if (!post) return <p>Post is not found</p>;
   return (
-    <main className="w-full px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300 mt-12  ">
+    <main className="w-full px-4 sm:px-12 py-4 my-6 max-w-190 mx-auto text-gray-200 transition-all duration-300 mt-12">
       <header className="flex flex-col items-center sm:items-start">
         {post.featuredImageURL && (
           <div className="max-w-80">
             <img
-              className="w-full max-h-auto"
+              className="w-full max-h-auto vt-image"
               src={post.featuredImageURL}
               alt="post feature image"
             />
           </div>
         )}
 
-        <h1 className="bg-pink-600 text-5xl sm:text-6xl font-bold text-black mix-blend-screen px-10 py-5 mb-6">
+        <h1 className="bg-pink-600 text-5xl sm:text-6xl font-bold text-black mix-blend-screen px-10 py-5 mb-6 vt-title">
           {post.title}
         </h1>
         <p className="text-gray-300 text-lg  mr-auto mb-4">
