@@ -1,7 +1,6 @@
 import { CommentDropDown } from "./CommentDropdown";
 import { useContext, useState } from "react";
 import { EditCommentForm } from "./EditCommentForm";
-import { useAuth } from "../contexts/authContext";
 import { useComments } from "../contexts/commentContext";
 import { timeAgo } from "../utlis/dateUtlis";
 import { Link } from "react-router";
