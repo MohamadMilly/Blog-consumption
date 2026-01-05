@@ -36,7 +36,11 @@ function Navbar() {
     <>
       <nav className="hidden relative w-full mx-auto mt-2 sm:mt-6 md:mt-8 mb-8 sm:w-5/6 md:w-200 px-6 py-4 md:flex justify-between bg-white/5 rounded-full backdrop-blur-sm shadow-inner shadow-white/20">
         {user && (
-          <NavLink to="/me/settings" className={linkDesktopClass}>
+          <NavLink
+            to="/me/settings"
+            className={linkDesktopClass}
+            viewTransition
+          >
             <span className="flex justify-center items-center gap-x-1">
               <Settings size={20} />
               Settings
@@ -44,19 +48,19 @@ function Navbar() {
           </NavLink>
         )}
 
-        <NavLink to="/categories" className={linkDesktopClass}>
+        <NavLink to="/categories" className={linkDesktopClass} viewTransition>
           <span className="flex justify-center items-center gap-x-1">
             <Shapes size={20} />
             Categories
           </span>
         </NavLink>
-        <NavLink to="/" className={linkDesktopClass}>
+        <NavLink to="/" className={linkDesktopClass} viewTransition>
           <span className="flex justify-center items-center gap-x-1">
             <House size={20} />
             Home
           </span>
         </NavLink>
-        <NavLink to="/search" className={linkDesktopClass}>
+        <NavLink to="/search" className={linkDesktopClass} viewTransition>
           <span className="flex justify-center items-center gap-x-1">
             <Search size={20} />
             Search
@@ -64,7 +68,7 @@ function Navbar() {
         </NavLink>
         {isAuthor && <DashBoardDirectButton />}
         {user && (
-          <NavLink to="/me/profile" className={linkDesktopClass}>
+          <NavLink to="/me/profile" className={linkDesktopClass} viewTransition>
             <span className="flex justify-center items-center gap-x-1">
               <CircleUser size={20} />
               Profile
@@ -73,10 +77,18 @@ function Navbar() {
         )}
         {!user && (
           <>
-            <NavLink to="/auth/login" className={linkDesktopClass}>
+            <NavLink
+              to="/auth/login"
+              className={linkDesktopClass}
+              viewTransition
+            >
               <span>Log in</span>
             </NavLink>
-            <NavLink to="/auth/signup" className={linkDesktopClass}>
+            <NavLink
+              to="/auth/signup"
+              className={linkDesktopClass}
+              viewTransition
+            >
               <span>Sign up</span>
             </NavLink>
           </>
@@ -84,26 +96,26 @@ function Navbar() {
       </nav>
       <nav className="fixed bottom-2 left-1/2 z-50 w-full h-16 max-w-lg -translate-x-1/2 rounded-full bg-slate-800 flex md:hidden">
         {user && (
-          <NavLink to="/me/settings" className={linkMobileClass}>
+          <NavLink to="/me/settings" className={linkMobileClass} viewTransition>
             <span className="flex justify-center items-center gap-x-1">
               <Settings size={20} />
               <span className="sr-only">Settings</span>
             </span>
           </NavLink>
         )}
-        <NavLink to="/categories" className={linkMobileClass}>
+        <NavLink to="/categories" className={linkMobileClass} viewTransition>
           <span className="flex justify-center items-center gap-x-1">
             <Shapes size={20} />
             <span className="sr-only">Categories</span>
           </span>
         </NavLink>
-        <NavLink to="/" className={linkMobileClass}>
+        <NavLink to="/" className={linkMobileClass} viewTransition>
           <span className="flex justify-center items-center gap-x-1">
             <House size={20} />
             <span className="sr-only">Home</span>
           </span>
         </NavLink>
-        <NavLink to="/search" className={linkMobileClass}>
+        <NavLink to="/search" className={linkMobileClass} viewTransition>
           <span className="flex justify-center items-center gap-x-1">
             <Search size={20} />
             <span className="sr-only">Search</span>
@@ -111,7 +123,7 @@ function Navbar() {
         </NavLink>
         {isAuthor && currentRoute === "/" && <DashBoardDirectButton />}
         {user && (
-          <NavLink to="/me/profile" className={linkMobileClass}>
+          <NavLink to="/me/profile" className={linkMobileClass} viewTransition>
             <span className="flex justify-center items-center gap-x-1">
               <CircleUser size={20} />
               <span className="sr-only">Profile</span>
@@ -120,10 +132,18 @@ function Navbar() {
         )}
         {!user && (
           <>
-            <NavLink to="/auth/login" className={linkMobileClass}>
+            <NavLink
+              to="/auth/login"
+              className={linkMobileClass}
+              viewTransition
+            >
               <span>Log in</span>
             </NavLink>
-            <NavLink to="/auth/signup" className={linkMobileClass}>
+            <NavLink
+              to="/auth/signup"
+              className={linkMobileClass}
+              viewTransition
+            >
               <span>Sign up</span>
             </NavLink>
           </>
