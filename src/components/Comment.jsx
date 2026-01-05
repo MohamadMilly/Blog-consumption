@@ -6,13 +6,12 @@ import { useComments } from "../contexts/commentContext";
 import { timeAgo } from "../utlis/dateUtlis";
 import { Link } from "react-router";
 import { ControlContext } from "./CommentsContainer";
+import { useDeleteComment } from "../hooks/useDeleteComment";
 export function Comment({ author, content, createdAt, updatedAt, id, status }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsloading] = useState(false);
+
   const [isDateVisible, setIsDateVisible] = useState(false);
-  const [error, setError] = useState(null);
-  const { token } = useAuth();
-  const { slug, setComments, post, comments } = useComments();
+  const { slug, post, setComments } = useComments();
   const { controller, setIsAborted } = useContext(ControlContext);
   const createdAtDate = new Date(createdAt);
   const updatedAtDate = new Date(updatedAt);
@@ -24,38 +23,15 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
   const avatar = profile?.avatar || "/avatar_placeholder.jpg";
   const API_URL = import.meta.env.VITE_API_URL;
   const isPostAuthorComment = post.author.id === author.id;
+  const { deleteComment, isLoading, error } = useDeleteComment();
   const handleDelete = async () => {
-    let commentsClone;
-    setComments((prev) => {
-      commentsClone = [...prev];
-      return prev.filter((c) => c.id !== id);
-    });
+    setComments((prev) => prev.filter((comment) => comment.id !== id));
     if (status === "sending") {
       controller.abort();
       setIsAborted(true);
       return;
     }
-    try {
-      setIsloading(true);
-      setError(null);
-
-      const response = await fetch(`${API_URL}/posts/${slug}/comments/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || "Failed deleteing the comment.");
-      }
-    } catch (error) {
-      setComments(commentsClone);
-      setError(error.message);
-      console.error(error.message);
-    } finally {
-      setIsloading(false);
-    }
+    deleteComment(id, slug, setIsAborted);
   };
 
   const handleDateVisibilityToggle = () => {

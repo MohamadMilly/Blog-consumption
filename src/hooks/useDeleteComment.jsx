@@ -10,10 +10,9 @@ export function useDeleteComment() {
   const { token } = useAuth();
   const { setComments, comments } = useComments();
 
-  const deleteComment = async (commentId, postSlug) => {
+  const deleteComment = async (commentId, postSlug, setIsAborted) => {
     const commentsClone = [...comments];
 
-    setComments((prev) => prev.filter((comment) => comment.id !== commentId));
     try {
       setIsLoading(true);
       setError(null);
@@ -39,6 +38,9 @@ export function useDeleteComment() {
         throw new Error(result.message || "Failed deleting the comment.");
       }
     } catch (err) {
+      if (err.name === "AbortError") {
+        setIsAborted(false);
+      }
       setComments(commentsClone);
       setError(err.message);
       console.error(err.message);

@@ -82,7 +82,7 @@ export function Login() {
           className="flex justify-center items-center gap-x-2 py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-auto"
           type="submit"
         >
-          <span>Log in</span>
+          <span>{isLoading ? "Logging in" : "Log in"}</span>
           {isLoading && <Spinner size="sm" />}
         </button>
       </form>

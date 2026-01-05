@@ -122,7 +122,7 @@ export function SignUp() {
           className="flex items-center justify-center gap-x-2 py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-2"
           type="submit"
         >
-          <span>Submit</span>
+          <span>{isLoading ? "Submitting" : "submit"}</span>
           {isLoading && <Spinner size="sm" />}
         </button>
       </form>
