@@ -12,7 +12,7 @@ export function AddCommentForm({ slug, setIsCommenting }) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSlideUpRunning, setIsSlideUpRunning] = useState(false);
-  const { controller } = useContext(CommentsPanelContext);
+  const { controller, setIsAborted } = useContext(CommentsPanelContext);
   const API_URL = import.meta.env.VITE_API_URL;
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -38,7 +38,6 @@ export function AddCommentForm({ slug, setIsCommenting }) {
     };
 
     setComments((prev) => [...prev, OptimisticComment]);
-
     try {
       setError(null);
       setIsLoading(true);
@@ -70,7 +69,10 @@ export function AddCommentForm({ slug, setIsCommenting }) {
         );
       }
     } catch (error) {
-      if (error.name === "AbortError") return;
+      if (error.name === "AbortError") {
+        setIsAborted(false);
+        return;
+      }
       setError(error.message);
       setComments((prev) =>
         prev.filter((comment) => comment.id !== OptimisticComment.id)

@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 import { useComments } from "../contexts/commentContext";
 import { Comment } from "./Comment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AddCommentForm } from "./AddCommentForm";
 import { MessageCircle, X, PlusCircle } from "lucide-react";
 import Spinner from "./Spinner";
@@ -19,16 +19,17 @@ export function CommentsPanel() {
     slug,
   } = useComments();
   const [isCommenting, setIsCommenting] = useState(false);
+  const [isAborted, setIsAborted] = useState(false);
   const location = useLocation();
-
   useEffect(() => {
     setIsCommentsPanelOpen(false);
   }, [location, setIsCommentsPanelOpen]);
 
   const commentsCount = comments?.length;
-  const controller = new AbortController();
+
+  const controller = useMemo(() => new AbortController(), [isAborted]);
   return (
-    <CommentsPanelContext value={{ controller }}>
+    <CommentsPanelContext value={{ controller, setIsAborted }}>
       <section
         id="drawer-bottom-comments"
         aria-labelledby="drawer-bottom-comments-label"

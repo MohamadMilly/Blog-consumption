@@ -13,7 +13,7 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
   const [error, setError] = useState(null);
   const { token } = useAuth();
   const { slug, setComments, post, comments } = useComments();
-  const { controller } = useContext(CommentsPanelContext);
+  const { controller, setIsAborted } = useContext(CommentsPanelContext);
   const createdAtDate = new Date(createdAt);
   const updatedAtDate = new Date(updatedAt);
   const createdAtDateISO = createdAtDate.toISOString();
@@ -32,6 +32,7 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
     });
     if (status === "sending") {
       controller.abort();
+      setIsAborted(true);
       return;
     }
     try {
@@ -49,7 +50,6 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
         throw new Error(result.message || "Failed deleteing the comment.");
       }
     } catch (error) {
-      if (error.name === "AbortError") return;
       setComments(commentsClone);
       setError(error.message);
       console.error(error.message);
