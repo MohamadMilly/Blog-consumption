@@ -31,12 +31,6 @@
     background-color: #db2777;
     border-radius: 9999px;
   }
-  .vt-image {
-    view-transition-name: post-image;
-  }
-  .vt-title {
-    view-transition-name: post-title;
-  }
 }
 
 @keyframes dropdown {

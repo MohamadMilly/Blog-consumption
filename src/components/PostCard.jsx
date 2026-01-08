@@ -57,7 +57,10 @@ export function Post({
         <div className="w-full h-40 sm:h-full sm:w-50 shrink-0 bg-gray-500/10 flex items-center justify-center text-gray-400 overflow-hidden">
           {featuredImageURL ? (
             <img
-              className="object-cover w-full h-full vt-image"
+              className="object-cover w-full h-full"
+              style={{
+                viewTransitionName: `post-image-${slug}`,
+              }}
               src={featuredImageURL}
               alt="post feature image"
             />
@@ -66,7 +69,10 @@ export function Post({
           )}
         </div>
         <div className="flex flex-col grow px-4 py-2">
-          <h2 className="text-lg font-semibold mb-2 flex items-center gap-x-2 group border-b-2 border-pink-600/70 w-fit transition-all duration-300 vt-title">
+          <h2
+            style={{ viewTransitionName: `post-title-${slug}` }}
+            className="text-lg font-semibold mb-2 flex items-center gap-x-2 group border-b-2 border-pink-600/70 w-fit transition-all duration-300"
+          >
             <Link viewTransition to={`/posts/${slug}`}>
               {title}
             </Link>
@@ -97,10 +103,10 @@ export function Post({
             ))}
           </ul>
 
-          <div className="mt-4">
+          <div className="mt-auto">
             <button
               onClick={handleShowComments}
-              className="w-full flex justify-center items-center gap-x-2 px-3 py-1.5 bg-slate-800/50 hover:bg-slate-700/50 text-gray-200 rounded transition-all duration-300"
+              className="w-full flex justify-center items-center gap-x-2 px-3 py-1.5 mt-auto bg-slate-800/50 hover:bg-slate-700/50 text-gray-200 rounded transition-all duration-300"
             >
               <MessageCircle size={18} />
               <span>Comments</span>

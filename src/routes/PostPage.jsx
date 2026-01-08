@@ -43,14 +43,18 @@ export function PostPage() {
         {post.featuredImageURL && (
           <div className="max-w-80">
             <img
-              className="w-full max-h-auto vt-image"
+              className="w-full max-h-auto"
+              style={{ viewTransitionName: `post-image-${slug}` }}
               src={post.featuredImageURL}
               alt="post feature image"
             />
           </div>
         )}
 
-        <h1 className="bg-pink-600 text-5xl sm:text-6xl font-bold text-black mix-blend-screen px-10 py-5 mb-6 vt-title">
+        <h1
+          style={{ viewTransitionName: `post-title-${slug}` }}
+          className="bg-pink-600 text-5xl sm:text-6xl font-bold text-black mix-blend-screen px-10 py-5 mb-6"
+        >
           {post.title}
         </h1>
         <p className="text-gray-300 text-lg  mr-auto mb-4">
