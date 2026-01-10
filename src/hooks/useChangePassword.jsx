@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
+import { toast } from "react-toastify";
 
 export function useChangePassword() {
   const [error, setError] = useState(null);
@@ -28,6 +29,7 @@ export function useChangePassword() {
       if (!response.ok) {
         throw new Error(result.message || "Changing passoword failed.");
       }
+      toast.success("Password updated successfully.");
     } catch (error) {
       setError(error.message);
       throw error;

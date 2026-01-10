@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useChangePassword } from "../hooks/useChangePassword";
 import { PasswordField } from "./PasswordField";
-
+import Spinner from "./Spinner";
 export function ChangePasswordForm() {
   const { changePassword, error, isLoading } = useChangePassword();
   const navigate = useNavigate();
@@ -63,21 +63,15 @@ export function ChangePasswordForm() {
         />
 
         <button
+          className="flex justify-center items-center gap-x-2 py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-auto"
           type="submit"
-          disabled={isLoading}
-          className="py-2 px-6 rounded-full bg-pink-700/80 hover:bg-pink-700/90 transition text-white font-semibold mt-auto disabled:opacity-50"
         >
-          Confirm
+          <span>{isLoading ? "Changing..." : "Confirm"}</span>
+          {isLoading && <Spinner size="sm" />}
         </button>
       </form>
 
       {error && <p className="mt-4 text-red-400 text-center">Error: {error}</p>}
-
-      {isLoading && (
-        <p className="mt-4 text-pink-300 text-center">
-          Changing the password...
-        </p>
-      )}
 
       <style jsx="true">{`
         @keyframes orbit {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useUser } from "../contexts/userContext";
 import { SquarePen, MapPin } from "lucide-react";
+import { toast } from "react-toastify";
 export function LocationSection({ initialLocation }) {
   const [location, setLocation] = useState(initialLocation);
   const [isEditing, setIsEditing] = useState(false);
@@ -30,10 +31,19 @@ export function LocationSection({ initialLocation }) {
       });
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.message || "Failed to set the location");
+        throw {
+          status: response.status,
+          data: result,
+          message: result.message,
+        };
       }
       refreshUser();
     } catch (error) {
+      if (error.data && error.status === 400) {
+        error.data.errors.forEach((error) => {
+          toast.error(error.msg);
+        });
+      }
       setError(error.message);
     } finally {
       setIsLoading(false);

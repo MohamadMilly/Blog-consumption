@@ -90,7 +90,7 @@ export function Post({
             }}
             className="text-sm text-gray-200 bg-gray-700/10 p-2 my-2 rounded max-h-20 overflow-hidden"
           />
-          <ul className="flex flex-wrap gap-2 mt-3 text-sm">
+          <ul className="flex flex-wrap gap-2 mt-2 mb-3 text-sm">
             {categories.map((category) => (
               <li
                 key={category.id}

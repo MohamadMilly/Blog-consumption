@@ -5,12 +5,13 @@ import { useUser } from "../contexts/userContext";
 import Spinner from "./Spinner";
 import { PlusCircle } from "lucide-react";
 import { ControlContext } from "./CommentsContainer";
+import { toast } from "react-toastify";
+
 export function AddCommentForm({ slug }) {
   const [comment, setComment] = useState("");
   const { token } = useAuth();
   const { user } = useUser();
   const { setComments } = useComments();
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSlideUpRunning, setIsSlideUpRunning] = useState(false);
   const { controller, setIsAborted } = useContext(ControlContext);
@@ -41,7 +42,6 @@ export function AddCommentForm({ slug }) {
 
     setComments((prev) => [...prev, OptimisticComment]);
     try {
-      setError(null);
       setIsLoading(true);
       const response = await fetch(`${API_URL}/posts/${slug}/comments`, {
         method: "POST",
@@ -56,7 +56,11 @@ export function AddCommentForm({ slug }) {
       });
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.message || "Failed adding the comment");
+        throw {
+          status: response.status,
+          data: result,
+          message: result.message,
+        };
       }
       const addedcomment = result.comment;
       if (addedcomment) {
@@ -70,12 +74,19 @@ export function AddCommentForm({ slug }) {
           })
         );
       }
+      toast.success("Your comment is added successfully.");
     } catch (error) {
       if (error.name === "AbortError") {
         setIsAborted(false);
         return;
       }
-      setError(error.message);
+      if (error.data && error.status === 400) {
+        error.data.errors.forEach((error) => {
+          toast.error(error.msg);
+        });
+      } else {
+        console.error("Unexpected error happened: ", error.message);
+      }
       setComments((prev) =>
         prev.filter((comment) => comment.id !== OptimisticComment.id)
       );
@@ -140,7 +151,6 @@ export function AddCommentForm({ slug }) {
               </button>
             </div>
           </div>
-          {error && <p>Error: {error}</p>}
         </form>
       )}
     </div>

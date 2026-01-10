@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useUser } from "../contexts/userContext";
 import { SquarePen } from "lucide-react";
+import { toast } from "react-toastify";
 export function BioSection({ initialBio }) {
   const [isEditing, setIsEditing] = useState(false);
   const [bio, setBio] = useState(initialBio);
@@ -29,10 +30,20 @@ export function BioSection({ initialBio }) {
       });
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.message || "Error updating bio.");
+        throw {
+          status: response.status,
+          data: result,
+          message: result.message,
+        };
       }
       refreshUser();
+      toast.success("Bio updated successfully.");
     } catch (error) {
+      if (error.data && error.status === 400) {
+        error.data.errors.forEach((error) => {
+          toast.error(error.msg);
+        });
+      }
       setError(error.message);
     } finally {
       setIsLoading(false);
@@ -104,7 +115,6 @@ export function BioSection({ initialBio }) {
             >
               Cancel
             </button>
-            {error && <p>Error: {error}</p>}
           </div>
         </form>
       )}
