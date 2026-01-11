@@ -88,8 +88,9 @@ export function PostPage() {
         </div>
       </header>
       <article
+        dir="auto"
         dangerouslySetInnerHTML={{ __html: post.content }}
-        className="text-lg text-gray-200 mb-8 whitespace-pre-wrap prose prose-invert wrap-break-word whitespace-normal overflow-x-auto"
+        className="text-lg text-gray-200 mb-8 whitespace-normal prose prose-invert max-w-prose max-w-full overflow-x-auto"
       />
 
       <aside>

@@ -8,6 +8,7 @@ export function CommentDropDown({
   authorId,
   onDelete,
   isLoading,
+  status,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
@@ -29,7 +30,8 @@ export function CommentDropDown({
         >
           <li className="hover:bg-gray-500/10 px-1 py-1" role="menuitem">
             <button
-              className="text-sm text-gray-400 flex gap-x-1 items-center cursor-pointer"
+              className="text-sm text-gray-400 flex gap-x-1 items-center cursor-pointer disabled:opacity-10"
+              disabled={status === "sending"}
               onClick={() => {
                 setIsOpen(false);
                 setIsEditing(true);

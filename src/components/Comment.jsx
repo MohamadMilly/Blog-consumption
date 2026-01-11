@@ -66,6 +66,7 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
               authorId={author.id}
               isLoading={isLoading}
               onDelete={handleDelete}
+              status={status}
             />
           </div>
           {!isEditing && (
