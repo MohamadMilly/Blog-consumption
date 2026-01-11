@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { PasswordField } from "../components/PasswordField";
 import Spinner from "../components/Spinner";
 export function SignUp() {
-  const [error, setError] = useState();
+  const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export function SignUp() {
     const data = Object.fromEntries(formData.entries());
     try {
       setIsLoading(true);
-      setError(null);
+      setErrors([]);
       const response = await fetch(`${API_URL}/auth/signup`, {
         method: "post",
         headers: {
@@ -27,13 +27,21 @@ export function SignUp() {
       });
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.message || "Signup failed");
+        throw {
+          status: response.status,
+          data: result,
+          message: result.message,
+        };
       }
       login(result.token, result.user); // signup is also considered as login (the user doesn't have to type info twice)
       navigate("/");
     } catch (error) {
-      setError(error.message);
-      console.error(error.message);
+      if (error.data && error.status === 400) {
+        setErrors(error.data.errors || []);
+        console.log(error.data.errors);
+      } else {
+        console.error(error.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +135,13 @@ export function SignUp() {
         </button>
       </form>
 
-      {error && <p className="mt-4 text-red-400 text-center">Error: {error}</p>}
+      {errors.length > 0 && (
+        <ul>
+          {errors.map((error) => {
+            return <p className="mt-4 text-red-400 text-center">{error.msg}</p>;
+          })}
+        </ul>
+      )}
 
       <style jsx="true">{`
         @keyframes orbit {

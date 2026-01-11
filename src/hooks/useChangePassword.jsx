@@ -27,11 +27,21 @@ export function useChangePassword() {
       });
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.message || "Changing passoword failed.");
+        throw {
+          status: response.status,
+          data: result,
+          message: result.message,
+        };
       }
       toast.success("Password updated successfully.");
     } catch (error) {
-      setError(error.message);
+      if (error.status === 400 && error.data) {
+        error.data.errors.forEach((err) => {
+          toast.error(err.msg);
+        });
+      } else {
+        console.error("Unexpected error happened: ", error.message);
+      }
       throw error;
     } finally {
       setIsLoading(false);

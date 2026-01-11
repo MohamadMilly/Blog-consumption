@@ -17,7 +17,8 @@ export function LocationSection({ initialLocation }) {
     setLocation(e.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch(`${API_URL}/users/me`, {
         method: "PATCH",
@@ -37,7 +38,9 @@ export function LocationSection({ initialLocation }) {
           message: result.message,
         };
       }
+
       refreshUser();
+      toast.success("Location updated successfully.");
     } catch (error) {
       if (error.data && error.status === 400) {
         error.data.errors.forEach((error) => {

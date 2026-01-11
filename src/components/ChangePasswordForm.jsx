@@ -18,8 +18,8 @@ export function ChangePasswordForm() {
         data.confirmPassword
       );
       navigate("/me/settings");
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err.message);
     }
   };
 
