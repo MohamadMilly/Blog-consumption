@@ -1,22 +1,35 @@
 import { Link, useParams } from "react-router";
 import { useComments } from "../contexts/commentContext";
 import { usePosts } from "../contexts/postsContext";
-import { useEffect, useState } from "react";
-import { Comment } from "../components/Comment";
+import { useEffect } from "react";
+
+import Prism from "prismjs";
+import "prismjs/themes/prism-tomorrow.css"; // VS Code dark theme
+import "prismjs/components/prism-javascript"; // add languages you need
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-markup";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers.js";
+
 import { formatDate } from "../utlis/dateUtlis";
-import { AddCommentForm } from "../components/AddCommentForm";
-import { PlusCircle, ArrowRight } from "lucide-react";
+
+import { ArrowRight } from "lucide-react";
 import { useMathJax } from "../hooks/useMathJax";
 import Spinner from "../components/Spinner";
-import { LoadingComments } from "../components/LoadingComments";
+
 import { CommmentsContainer } from "../components/CommentsContainer";
 
 export function PostPage() {
   useMathJax();
   const { slug } = useParams();
-  const { setSlug, comments, isLoading: isLoadingComments } = useComments();
+  const { setSlug } = useComments();
   const { isLoading: isLoadingPosts, error, posts } = usePosts();
-  const [isCommenting, setIsCommenting] = useState(false);
+  useEffect(() => {
+    document
+      .querySelectorAll("pre")
+      .forEach((pre) => pre.classList.add("line-numbers"));
+    Prism.highlightAll();
+  }, []);
   useEffect(() => {
     setSlug(slug);
   }, [slug, setSlug]);
