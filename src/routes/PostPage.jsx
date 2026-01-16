@@ -24,8 +24,6 @@ export function PostPage() {
   const { slug } = useParams();
   const { setSlug } = useComments();
   const { isLoading: isLoadingPosts, error, posts } = usePosts();
-  const isLoadingMoreData = isLoadingPosts && posts.length > 0;
-  const isLoadingInitialData = isLoadingPosts && posts.length === 0;
   useEffect(() => {
     document
       .querySelectorAll("pre")
