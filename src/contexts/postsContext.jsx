@@ -8,12 +8,8 @@ export function PostsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
   const [cursor, setCursor] = useState(null);
-  const secondLoad = useRef(false);
+
   useEffect(() => {
-    if (!secondLoad.current) {
-      secondLoad.current = true;
-      return;
-    }
     const getPosts = async () => {
       try {
         setIsLoading(true);
