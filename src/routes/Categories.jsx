@@ -5,15 +5,26 @@ import { CommentsPanel } from "../components/CommentsPanel";
 import { ToggleCategoryButton } from "../components/ToggleCategoryButton";
 import Spinner from "../components/Spinner";
 import { LoadingPostsPage } from "../components/LoadingPostsPage";
+import { useQuery } from "@tanstack/react-query";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+async function getCategories() {
+  const response = await fetch(`${API_URL}/categories`);
+  if (!response.ok) {
+    throw new Error("An error happened while getting available categories.");
+  }
+  return response.json();
+}
 
 export function Categories() {
-  const [categories, setCategories] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const selected = searchParams.get("title")?.split(",") ?? [];
-
-  const API_URL = import.meta.env.VITE_API_URL;
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+    staleTime: 1000 * 60 * 5,
+  });
 
   const toggleCategory = (title) => {
     const next = selected.includes(title)
@@ -26,27 +37,13 @@ export function Categories() {
     }
   };
 
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const response = await fetch(`${API_URL}/categories`);
-        const data = await response.json();
-        setCategories(data.categories || []);
-      } catch (err) {
-        setError(err.message);
-        console.error(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getCategories();
-  }, [API_URL]);
   if (error) {
     return <p>Error: {error}</p>;
   }
   if (isLoading) {
     return <Spinner />;
   }
+  const categories = data.categories;
   if (categories.length === 0) {
     return <p>No existing categories yet</p>;
   }
