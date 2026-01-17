@@ -25,7 +25,7 @@ export function CommentsProvider({ children }) {
 
         if (!response.ok) {
           throw new Error(
-            result.message || "Failed getting the comments for this post."
+            result.message || "Failed getting the comments for this post.",
           );
         }
         const commentsWithStatus = result.comments.map((comment) => ({

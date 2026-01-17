@@ -7,20 +7,26 @@ import { UserProvider } from "./contexts/userContext.jsx";
 import { CommentsProvider } from "./contexts/commentContext.jsx";
 import { PostsProvider } from "./contexts/postsContext.jsx";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import { createBrowserRouter, RouterProvider } from "react-router";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter(routes);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <UserProvider>
-        <PostsProvider>
-          <CommentsProvider>
-            <RouterProvider router={router} />
-          </CommentsProvider>
-        </PostsProvider>
-      </UserProvider>
-    </AuthProvider>
-  </StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <UserProvider>
+          <PostsProvider>
+            <CommentsProvider>
+              <RouterProvider router={router} />
+            </CommentsProvider>
+          </PostsProvider>
+        </UserProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </StrictMode>,
 );

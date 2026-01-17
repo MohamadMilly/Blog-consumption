@@ -1,30 +1,23 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function useGetPost(slug) {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [post, setPost] = useState(null);
-
-  useEffect(() => {
-    const getPost = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const response = await fetch(`${API_URL}/posts/${slug}`);
-        const result = await response.json();
-        if (!response.ok) {
-          throw new Error(result.message || "Failing to get this post");
-        }
-        setPost(result.post);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+  const { isLoading, data, error } = useQuery({
+    queryKey: [slug],
+    queryFn: async () => {
+      const response = await fetch(`${API_URL}/posts/${slug}`);
+      if (!response.ok) {
+        throw new Error("Failed to get this post.");
       }
-    };
-    getPost();
-  }, [slug]);
-  return { isLoading, error, post };
+      return response.json();
+    },
+    staleTime: 1000 * 60 * 2,
+  });
+
+  return {
+    isLoading,
+    error: data ? (data.message ? data.message : error) : null,
+    post: data ? data.post : null,
+  };
 }

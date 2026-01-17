@@ -7,8 +7,12 @@ import { toast } from "react-toastify";
 import InfiniteScroll from "../components/InfiniteScroll";
 import Spinner from "../components/Spinner";
 export function HomePage() {
-  const { isLoading: isLoadingPosts, error, posts } = usePosts();
-  const isLoadingMoreData = isLoadingPosts && posts.length > 0;
+  const {
+    isLoading: isLoadingPosts,
+    error,
+    posts,
+    isFetchingNextPage,
+  } = usePosts();
   const isLoadingInitialData = isLoadingPosts && posts.length === 0;
   if (error) {
     toast.error(error);
@@ -47,8 +51,8 @@ export function HomePage() {
         </section>
       )}
       <InfiniteScroll />
-      {isLoadingMoreData && (
-        <p className="flex justify-center">
+      {isFetchingNextPage && (
+        <p className="flex justify-center bg-gray-600/20 py-1 rounded animate-pulse">
           <Spinner />
         </p>
       )}

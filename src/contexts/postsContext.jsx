@@ -1,38 +1,47 @@
-import { useContext, createContext, useState, useEffect, useRef } from "react";
-
+import { useContext, createContext } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 const PostsContext = createContext([]);
 
-export function PostsProvider({ children }) {
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL;
-  const [cursor, setCursor] = useState(null);
-  useEffect(() => {
-    const getPosts = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const response = await fetch(
-          `${API_URL}/posts${cursor ? `?currentCursor=${cursor}` : ""}`,
-        );
-        if (!response.ok) {
-          throw new Error("An Error happened while fetching posts");
-        }
-        const fetchedPostsObj = await response.json();
-        setPosts((prev) => [...prev, ...fetchedPostsObj.posts]);
-      } catch (error) {
-        console.error(error.message);
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+const API_URL = import.meta.env.VITE_API_URL;
 
-    getPosts();
-  }, [API_URL, cursor]);
+async function getPosts(cursor) {
+  const response = await fetch(
+    `${API_URL}/posts${cursor ? `?currentCursor=${cursor}` : ""}`,
+  );
+  if (!response.ok) {
+    throw new Error("An Error happened while fetching posts");
+  }
+  return response.json();
+}
+
+export function PostsProvider({ children }) {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    error,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: ({ pageParam = null }) => getPosts(pageParam),
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextcursor;
+    },
+    staleTime: 1000 * 60 * 2,
+  });
+
   return (
-    <PostsContext.Provider value={{ isLoading, error, posts, setCursor }}>
+    <PostsContext.Provider
+      value={{
+        posts: data ? data.pages.flatMap((page) => page.posts) : [],
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage: isFetchingNextPage,
+        isLoading: isLoading,
+        error,
+      }}
+    >
       {children}
     </PostsContext.Provider>
   );
