@@ -3,10 +3,11 @@ import { useState, useRef } from "react";
 import { useAuth } from "../contexts/authContext";
 import { useUser } from "../contexts/userContext";
 import { PlusCircle } from "lucide-react";
+import Spinner from "./Spinner";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY
+  import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY,
 );
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -79,7 +80,11 @@ export function AvatarForm({ className }) {
         className="bg-blue-700 p-1 rounded-full transition-all duration-300 hover:bg-blue-600"
         onClick={handleClick}
       >
-        <PlusCircle size={20} />
+        {isLoading ? (
+          <Spinner size="sm" color="text-white" />
+        ) : (
+          <PlusCircle size={20} />
+        )}
       </button>
     </form>
   );

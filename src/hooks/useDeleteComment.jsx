@@ -1,53 +1,67 @@
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../contexts/authContext";
-import { useComments } from "../contexts/commentContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+async function deleteComment({ commentId, postSlug, token }) {
+  const response = await fetch(
+    `${API_URL}/posts/${postSlug}/comments/${commentId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  if (response.status === 204) return {};
+  if (!response.ok) {
+    throw new Error("An error happened deleting the comment.");
+  }
+  return response.json();
+}
+
 export function useDeleteComment() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const { token } = useAuth();
-  const { setComments, comments } = useComments();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async ({ commentId, postSlug }) => {
+      return deleteComment({ commentId, postSlug, token });
+    },
 
-  const deleteComment = async (commentId, postSlug, setIsAborted) => {
-    const commentsClone = [...comments];
+    onMutate: async ({ commentId, postSlug }) => {
+      await queryClient.cancelQueries({
+        queryKey: ["comments", postSlug],
+      });
+      const previousComments =
+        (await queryClient.getQueryData(["comments", postSlug])) || [];
 
-    try {
-      setIsLoading(true);
-      setError(null);
+      queryClient.setQueryData(["comments", postSlug], (old) => {
+        return {
+          ...old,
+          comments: old.comments.filter((comment) => {
+            return comment.id !== commentId;
+          }),
+        };
+      });
 
-      const response = await fetch(
-        `${API_URL}/posts/${postSlug}/comments/${commentId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      let result;
-      try {
-        result = await response.json();
-      } catch {
-        result = {};
+      return { previousComments };
+    },
+    onError: (_err, args, context) => {
+      if (context?.previousComments) {
+        queryClient.setQueryData(
+          ["comments", args.postSlug],
+          context.previousComments,
+        );
       }
+    },
+    onSettled: (data, error, args, context) => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments", args.postSlug],
+      });
+    },
+    mutationKey: ["deleteComment"],
+  });
 
-      if (!response.ok) {
-        throw new Error(result.message || "Failed deleting the comment.");
-      }
-    } catch (err) {
-      if (err.name === "AbortError") {
-        setIsAborted(false);
-      }
-      setComments(commentsClone);
-      setError(err.message);
-      console.error(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return { isLoading, error, deleteComment };
+  return { error: mutation.error, mutation };
 }

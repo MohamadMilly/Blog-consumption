@@ -1,18 +1,26 @@
 import { useState } from "react";
 import { useComments } from "../contexts/commentContext";
 import { useAuth } from "../contexts/authContext";
+import { useEditComment } from "../hooks/useEditComment";
 
 export function EditCommentForm({ initialComment, setIsEditing, id }) {
   const [comment, setComment] = useState(initialComment);
   const { slug, setComments } = useComments();
-  const { token } = useAuth();
-  const [error, setError] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isSlideUpRunning, setIsSlideUpRunning] = useState(false);
+  const { mutation, error } = useEditComment();
   const API_URL = import.meta.env.VITE_API_URL;
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate({ content: comment, postSlug: slug, commentId: id });
+    setIsEditing(false);
+  };
+  /* 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -49,6 +57,7 @@ export function EditCommentForm({ initialComment, setIsEditing, id }) {
       setIsLoading(false);
     }
   };
+  */
   return (
     <form
       className={
@@ -57,6 +66,7 @@ export function EditCommentForm({ initialComment, setIsEditing, id }) {
           : "animate-dropdown ease-in"
       }
       onSubmit={handleSubmit}
+      method="POST"
     >
       <div className="flex flex-col">
         <textarea

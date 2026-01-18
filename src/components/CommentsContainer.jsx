@@ -32,14 +32,14 @@ export function CommmentsContainer({ className = "", slug = "" }) {
             <p className="text-red-400">Error: {error}</p>
           ) : isLoading ? (
             <LoadingComments />
-          ) : comments.length > 0 ? (
+          ) : comments && comments.length > 0 ? (
             comments.map((comment) => (
               <Comment
                 author={comment.author}
                 createdAt={comment.createdAt}
                 updatedAt={comment.updatedAt}
                 content={comment.content}
-                id={comment.id}
+                commentId={comment.id}
                 key={comment.id}
                 status={comment.status}
               />

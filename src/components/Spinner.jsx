@@ -4,6 +4,7 @@ export default function Spinner({
   size = "md",
   className = "",
   label = "Loading",
+  color = "text-pink-600",
 }) {
   const sizeMap = { sm: "h-4 w-4", md: "h-8 w-8", lg: "h-12 w-12" };
   const svgSize = sizeMap[size] ?? sizeMap.md;
@@ -14,7 +15,7 @@ export default function Spinner({
       aria-label={label}
       className={`flex items-center justify-center ${className} `}
     >
-      <Loader className={`animate-spin ${svgSize} text-pink-600`} />
+      <Loader className={`animate-spin ${svgSize} ${color}`} />
     </span>
   );
 }

@@ -38,7 +38,6 @@ export function SignUp() {
     } catch (error) {
       if (error.data && error.status === 400) {
         setErrors(error.data.errors || []);
-        console.log(error.data.errors);
       } else {
         console.error(error.message);
       }

@@ -5,13 +5,19 @@ import { useComments } from "../contexts/commentContext";
 import { timeAgo } from "../utlis/dateUtlis";
 import { Link } from "react-router";
 import { ControlContext } from "./CommentsContainer";
-import { useDeleteComment } from "../hooks/useDeleteComment";
-export function Comment({ author, content, createdAt, updatedAt, id, status }) {
+
+export function Comment({
+  author,
+  content,
+  createdAt,
+  updatedAt,
+  commentId,
+  status,
+}) {
   const [isEditing, setIsEditing] = useState(false);
 
   const [isDateVisible, setIsDateVisible] = useState(false);
-  const { slug, post, setComments } = useComments();
-  const { controller, setIsAborted } = useContext(ControlContext);
+  const { slug, post } = useComments();
   const createdAtDate = new Date(createdAt);
   const updatedAtDate = new Date(updatedAt);
   const createdAtDateISO = createdAtDate.toISOString();
@@ -22,16 +28,6 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
   const avatar = profile?.avatar || "/avatar_placeholder.jpg";
   const API_URL = import.meta.env.VITE_API_URL;
   const isPostAuthorComment = post.author.id === author.id;
-  const { deleteComment, isLoading, error } = useDeleteComment();
-  const handleDelete = async () => {
-    setComments((prev) => prev.filter((comment) => comment.id !== id));
-    if (status === "sending") {
-      controller.abort();
-      setIsAborted(true);
-      return;
-    }
-    deleteComment(id, slug, setIsAborted);
-  };
 
   const handleDateVisibilityToggle = () => {
     setIsDateVisible((prev) => !prev);
@@ -51,7 +47,6 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
       </Link>
       <div className="grow w-3/4">
         <div className="px-4 py-2 bg-gray-500/10 rounded-t-lg rounded-br-lg max-w-full">
-          {error && <p className="text-red-600">Error: {error}</p>}
           <div className="text-sm mb-1 flex justify-between items-center max-w-full">
             <strong className="flex items-center gap-x-2">
               <span>{author.firstname + " " + author.lastname}</span>
@@ -64,8 +59,8 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
             <CommentDropDown
               setIsEditing={setIsEditing}
               authorId={author.id}
-              isLoading={isLoading}
-              onDelete={handleDelete}
+              commentId={commentId}
+              slug={slug}
               status={status}
             />
           </div>
@@ -78,7 +73,7 @@ export function Comment({ author, content, createdAt, updatedAt, id, status }) {
             <EditCommentForm
               setIsEditing={setIsEditing}
               initialComment={content}
-              id={id}
+              id={commentId}
             />
           )}
         </div>

@@ -3,17 +3,19 @@ import { useAuth } from "../contexts/authContext";
 import { EllipsisVertical } from "lucide-react";
 import { X } from "lucide-react";
 import { SquarePen, Trash } from "lucide-react";
+import { useDeleteComment } from "../hooks/useDeleteComment";
+import { useAddComment } from "../hooks/useAddComment";
 export function CommentDropDown({
   setIsEditing,
   authorId,
-  onDelete,
-  isLoading,
+  commentId,
+  slug,
   status,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const { mutation: deleteMutation } = useDeleteComment();
   if (!user || user.id !== authorId) return null;
-
   return (
     <div className="relative">
       <button
@@ -30,8 +32,8 @@ export function CommentDropDown({
         >
           <li className="hover:bg-gray-500/10 px-1 py-1" role="menuitem">
             <button
-              className="text-sm text-gray-400 flex gap-x-1 items-center cursor-pointer disabled:opacity-10"
               disabled={status === "sending"}
+              className="text-sm text-gray-400 flex gap-x-1 items-center cursor-pointer disabled:opacity-20"
               onClick={() => {
                 setIsOpen(false);
                 setIsEditing(true);
@@ -43,12 +45,14 @@ export function CommentDropDown({
           </li>
           <li className="hover:bg-gray-500/10 px-1 py-1" role="menuitem">
             <button
-              className="text-sm text-gray-400 flex gap-x-1 items-center cursor-pointer"
-              onClick={onDelete}
-              disabled={isLoading}
+              disabled={status === "sending"}
+              className="text-sm text-gray-400 flex gap-x-1 items-center cursor-pointer disabled:opacity-20"
+              onClick={() => {
+                deleteMutation.mutate({ commentId, postSlug: slug });
+              }}
             >
               <Trash size={15} className="stroke-red-600" />
-              <span>{isLoading ? "Deleting..." : "Delete"}</span>
+              <span>Delete</span>
             </button>
           </li>
         </ul>

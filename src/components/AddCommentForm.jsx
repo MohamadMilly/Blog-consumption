@@ -1,26 +1,31 @@
 import { useContext, useState } from "react";
 import { useAuth } from "../contexts/authContext";
-import { useComments } from "../contexts/commentContext";
 import { useUser } from "../contexts/userContext";
 import Spinner from "./Spinner";
 import { PlusCircle } from "lucide-react";
 import { ControlContext } from "./CommentsContainer";
 import { toast } from "react-toastify";
+import { useAddComment } from "../hooks/useAddComment";
 
 export function AddCommentForm({ slug }) {
   const [comment, setComment] = useState("");
   const { token } = useAuth();
-  const { user } = useUser();
-  const { setComments } = useComments();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isSlideUpRunning, setIsSlideUpRunning] = useState(false);
-  const { controller, setIsAborted } = useContext(ControlContext);
+
   const [isCommenting, setIsCommenting] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
+  const { mutation, error } = useAddComment();
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate({ content: comment, postSlug: slug, token });
+    setComment("");
+  };
+  /* const handleSubmit = async (e) => {
     e.preventDefault();
     const tempId = Date.now();
     const OptimisticComment = {
@@ -71,7 +76,7 @@ export function AddCommentForm({ slug }) {
             } else {
               return comment;
             }
-          })
+          }),
         );
       }
       toast.success("Your comment is added successfully.");
@@ -88,13 +93,13 @@ export function AddCommentForm({ slug }) {
         console.error("Unexpected error happened: ", error.message);
       }
       setComments((prev) =>
-        prev.filter((comment) => comment.id !== OptimisticComment.id)
+        prev.filter((comment) => comment.id !== OptimisticComment.id),
       );
     } finally {
       setIsLoading(false);
       setComment("");
     }
-  };
+  }; */
   return (
     <div className="mb-4">
       <button

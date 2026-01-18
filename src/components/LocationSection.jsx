@@ -20,6 +20,8 @@ export function LocationSection({ initialLocation }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
+      setError(false);
       const response = await fetch(`${API_URL}/users/me`, {
         method: "PATCH",
         headers: {

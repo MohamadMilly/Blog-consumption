@@ -1,16 +1,28 @@
+import { useQuery } from "@tanstack/react-query";
 import { useContext, createContext, useEffect } from "react";
 import { useState } from "react";
 const CommentsContext = createContext(null);
 
+const API_URL = import.meta.env.VITE_API_URL;
+async function fetchComments(slug) {
+  if (!slug) return { comments: [], post: null };
+  const response = await fetch(`${API_URL}/posts/${slug}/comments`);
+  if (!response.ok) {
+    throw new Error("An error happened while getting comments.");
+  }
+  return response.json();
+}
+
 export function CommentsProvider({ children }) {
   const [isCommentsPanelOpen, setIsCommentsPanelOpen] = useState(false);
   const [slug, setSlug] = useState(null);
-  const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const API_URL = import.meta.env.VITE_API_URL;
-
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["comments", slug],
+    queryFn: () => fetchComments(slug),
+  });
+  const comments = data ? data.comments : [];
+  const post = data ? data.post : [];
+  /* 
   useEffect(() => {
     let ignore = false;
     const fetchComments = async () => {
@@ -42,7 +54,7 @@ export function CommentsProvider({ children }) {
     };
     fetchComments();
     return () => (ignore = true);
-  }, [slug, API_URL]);
+  }, [slug, API_URL]); */
   return (
     <CommentsContext.Provider
       value={{
@@ -52,7 +64,6 @@ export function CommentsProvider({ children }) {
         comments,
         isLoading,
         error,
-        setComments,
         slug,
         post,
       }}
