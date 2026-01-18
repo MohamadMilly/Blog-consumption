@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/authContext";
 import { useUser } from "../contexts/userContext";
 import { PlusCircle } from "lucide-react";
 import Spinner from "./Spinner";
+import { toast } from "react-toastify";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -53,9 +54,10 @@ export function AvatarForm({ className }) {
       if (!response.ok) {
         throw new Error(result.message || "Error uploading the avatar");
       }
+      toast.success("Avatar updated successfully.");
       refreshUser();
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       console.error(error.message);
     } finally {
       setIsLoading(false);
