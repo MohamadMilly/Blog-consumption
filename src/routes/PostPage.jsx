@@ -54,30 +54,30 @@ export function PostPage() {
       ) : (
         <>
           <header className="flex flex-col items-center sm:items-start">
+            <h1
+              dir="auto"
+              style={{ viewTransitionName: `post-title-${slug}` }}
+              className="bg-pink-600 text-4xl sm:text-5xl font-bold text-black mix-blend-screen px-10 py-5 mb-6"
+            >
+              {post.title}
+            </h1>
             {post.featuredImageURL && (
-              <div className="max-w-80">
+              <div className="max-w-90 rounded mb-4">
                 <img
-                  className="w-full max-h-auto"
+                  className="w-full max-h-auto rounded"
                   style={{ viewTransitionName: `post-image-${slug}` }}
                   src={post.featuredImageURL}
                   alt="post feature image"
                 />
               </div>
             )}
-
-            <h1
-              style={{ viewTransitionName: `post-title-${slug}` }}
-              className="bg-pink-600 text-5xl sm:text-6xl font-bold text-black mix-blend-screen px-10 py-5 mb-6"
-            >
-              {post.title}
-            </h1>
-            <p className="text-gray-300 text-lg  mr-auto mb-4">
+            <p className="text-gray-300 text-sm mr-auto mb-4">
               <Link
                 to={`/users/${author.username}/profile`}
                 className="group flex items-center"
               >
                 <img
-                  className="w-15 h-15 auto object-center mr-2 rounded-full"
+                  className="w-10 h-10 auto object-center mr-2 rounded-full"
                   src={authorAvatar}
                   alt="author's avatar"
                 />
@@ -90,27 +90,27 @@ export function PostPage() {
                 </span>
               </Link>
             </p>
-            <div className="flex flex-col p-2 bg-gray-500/10 rounded mb-8">
-              <time dateTime={createdAtDateISO}>
-                <span className="text-pink-600">Created at: </span>
-                {createdAtDateString}
-              </time>
-              <time dateTime={updatedAtDateISO}>
-                <span className="text-pink-600">Updated at: </span>
-                {updatedAtDateString}
-              </time>
-            </div>
           </header>
+          <hr class="w-1/2 border-t-2 border-pink-600 mx-auto" />
           <article
             dir="auto"
             dangerouslySetInnerHTML={{ __html: post.content }}
-            className="text-lg text-gray-200 mb-8 whitespace-normal prose prose-invert max-w-prose overflow-x-auto"
+            className="mt-8 sm:text-lg text-gray-200 mb-8 whitespace-normal prose prose-invert max-w-prose overflow-x-auto"
           />
         </>
       )}
-
+      <div className="flex flex-col pl-4 py-2 pr-2 bg-gray-500/10 rounded mb-8 text-sm text-gray-400 border-l-5 border-pink-600">
+        <time dateTime={createdAtDateISO}>
+          <span className="text-pink-600 mr-2">Created at: </span>
+          {createdAtDateString}
+        </time>
+        <time dateTime={updatedAtDateISO}>
+          <span className="text-pink-600 mr-2">Updated at: </span>
+          {updatedAtDateString}
+        </time>
+      </div>
       <aside>
-        <h2 className="text-2xl tracking-tight font-medium border-b-2 border-pink-600 mb-4">
+        <h2 className="text-lg sm:text-xl tracking-tight font-medium border-b-2 border-pink-600 mb-4">
           Comments
         </h2>
         <CommmentsContainer slug={slug} />
